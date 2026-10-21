@@ -1,0 +1,25 @@
+#!/usr/bin/python3
+"""Flatpak extra-data installer. Runs without network access or user data."""
+import hashlib
+import json
+from pathlib import Path
+
+from extract_rpm import extract_rpm
+from patch_asar import patch
+
+metadata = json.loads(Path("/app/share/chatgpt-flatpak/payload.json").read_text())
+rpm = Path("chatgpt.rpm")
+if rpm.stat().st_size != metadata["size"]:
+    raise SystemExit("Unexpected OpenAI package size")
+with rpm.open("rb") as stream:
+    if hashlib.file_digest(stream, "sha256").hexdigest() != metadata["sha256"]:
+        raise SystemExit("OpenAI package checksum mismatch")
+extract_rpm(rpm, "chatgpt")
+version = json.loads(Path("chatgpt/resources/linux-package-metadata.json").read_text())["version"]
+if version != metadata["version"]:
+    raise SystemExit("Unexpected OpenAI application version")
+patch("chatgpt/resources/app.asar")
+for name in ["ChatGPT", "resources/codex"]:
+    if not (Path("chatgpt") / name).is_file():
+        raise SystemExit(f"Missing application component: {name}")
+rpm.unlink()

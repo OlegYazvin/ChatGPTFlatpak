@@ -1,0 +1,15 @@
+.cache/
+.tools/
+.private/
+.flatpak-builder/
+build/
+repo/
+dist/
+site/
+__pycache__/
+*.pyc
+*.rpm
+*.deb
+*.asar
+*.log
+.env*

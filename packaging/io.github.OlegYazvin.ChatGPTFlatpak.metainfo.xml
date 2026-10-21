@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.OlegYazvin.ChatGPTFlatpak</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <name>ChatGPT (Unofficial Flatpak)</name>
+  <summary>Independent packaging of OpenAI's native desktop application</summary>
+  <developer id="io.github.OlegYazvin"><name>Oleg Yazvin</name></developer>
+  <description>
+    <p>Independent Flatpak packaging for OpenAI's native ChatGPT Linux application, including Chat, Work, and Codex. This packaging is not affiliated with or endorsed by OpenAI.</p>
+    <p>The proprietary application is downloaded directly from OpenAI during installation. A ChatGPT account and an internet connection are required. Availability of features depends on your account and OpenAI's service.</p>
+  </description>
+  <launchable type="desktop-id">io.github.OlegYazvin.ChatGPTFlatpak.desktop</launchable>
+  <url type="homepage">https://github.com/OlegYazvin/ChatGPTFlatpak</url>
+  <url type="bugtracker">https://github.com/OlegYazvin/ChatGPTFlatpak/issues</url>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="26.930.31730.1" date="2026-10-20" type="development"/></releases>
+</component>

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=ChatGPT (Unofficial Flatpak)
+Comment=OpenAI's native desktop app packaged independently
+Exec=chatgpt %U
+Icon=io.github.OlegYazvin.ChatGPTFlatpak
+Type=Application
+Terminal=false
+StartupNotify=true
+StartupWMClass=Chatgpt
+Categories=Utility;Development;
+

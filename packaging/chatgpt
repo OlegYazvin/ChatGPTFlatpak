@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+export TMPDIR="${XDG_RUNTIME_DIR:?}/app/${FLATPAK_ID:?}"
+mkdir -p "$TMPDIR"
+export PATH="/app/extra/chatgpt/resources/cua_node/bin:/app/extra/chatgpt/resources:$PATH"
+export CODEX_HOME="${XDG_DATA_HOME:?}/codex"
+mkdir -p "$CODEX_HOME"
+exec zypak-wrapper /app/extra/chatgpt/ChatGPT "$@"

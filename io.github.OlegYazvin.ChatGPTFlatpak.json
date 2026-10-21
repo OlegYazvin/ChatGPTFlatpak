@@ -1,0 +1,55 @@
+{
+  "app-id": "io.github.OlegYazvin.ChatGPTFlatpak",
+  "runtime": "org.freedesktop.Sdk",
+  "runtime-version": "25.08",
+  "sdk": "org.freedesktop.Sdk",
+  "base": "org.electronjs.Electron2.BaseApp",
+  "base-version": "25.08",
+  "command": "chatgpt",
+  "separate-locales": false,
+  "finish-args": [
+    "--share=network",
+    "--share=ipc",
+    "--socket=x11",
+    "--socket=wayland",
+    "--socket=pulseaudio",
+    "--device=dri",
+    "--filesystem=host",
+    "--talk-name=org.freedesktop.secrets",
+    "--talk-name=org.freedesktop.Notifications",
+    "--talk-name=org.kde.StatusNotifierWatcher"
+  ],
+  "modules": [
+    {
+      "name": "chatgpt-packaging",
+      "buildsystem": "simple",
+      "build-commands": [
+        "install -Dm755 packaging/chatgpt /app/bin/chatgpt",
+        "install -Dm755 packaging/apply_extra /app/bin/apply_extra",
+        "install -Dm755 packaging/extract_rpm.py /app/bin/extract_rpm.py",
+        "install -Dm755 packaging/patch_asar.py /app/bin/patch_asar.py",
+        "install -Dm644 packaging/payload.json /app/share/chatgpt-flatpak/payload.json",
+        "install -Dm644 packaging/io.github.OlegYazvin.ChatGPTFlatpak.desktop /app/share/applications/io.github.OlegYazvin.ChatGPTFlatpak.desktop",
+        "install -Dm644 packaging/io.github.OlegYazvin.ChatGPTFlatpak.metainfo.xml /app/share/metainfo/io.github.OlegYazvin.ChatGPTFlatpak.metainfo.xml",
+        "install -Dm644 packaging/io.github.OlegYazvin.ChatGPTFlatpak.svg /app/share/icons/hicolor/scalable/apps/io.github.OlegYazvin.ChatGPTFlatpak.svg"
+      ],
+      "sources": [
+        {
+          "type": "dir",
+          "path": "packaging",
+          "dest": "packaging"
+        },
+        {
+          "type": "extra-data",
+          "filename": "chatgpt.rpm",
+          "url": "https://persistent.oaistatic.com/codex-app-prod/linux/rpm/x86_64/chatgpt-26.930.31730-1.x86_64.rpm",
+          "sha256": "773469b531e65dbe16262f883906423ea04c16a11c56d94eb2ef951abd002fc5",
+          "size": 532447701,
+          "only-arches": [
+            "x86_64"
+          ]
+        }
+      ]
+    }
+  ]
+}
