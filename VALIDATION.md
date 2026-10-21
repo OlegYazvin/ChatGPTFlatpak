@@ -36,10 +36,15 @@ pairing. The Flatpak has a separate profile and must be tested independently.
 - A separate test installation used that downloaded installer to fetch the
   signed GitHub Pages repository and OpenAI payload. Its bundled CLI version
   and actual sandbox command both passed, without using the local build repo.
-- The user confirmed phone pairing works in the new Flatpak profile after the
-  requested interactive sign-in/Chat/pairing check.
+- The user confirmed phone pairing works in the new Flatpak profile.
 - The packaged CLI reports an authenticated ChatGPT session. After restarting
   the Flatpak, it remains authenticated; credentials were not printed or copied.
+- The normal user installation was reinstalled from the signed public repository
+  with origin `chatgpt-flatpak`. Login and a sandbox command still pass afterward.
+- `flatpak update --user io.github.OlegYazvin.ChatGPTFlatpak` successfully checks
+  the public origin and reports no outstanding update. The temporary local test
+  remote was removed; the original `chatgpt.desktop` login callback handler was
+  restored.
 
 ## Interactive acceptance checklist
 
