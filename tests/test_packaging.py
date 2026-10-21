@@ -20,6 +20,7 @@ def load(name):
 
 rpm = load("extract_rpm")
 asar = load("patch_asar")
+bridge = load("codex_host")
 
 
 def cpio_entry(name, data=b"", mode=stat.S_IFREG | 0o644, inode=1, nlink=1):
@@ -54,6 +55,23 @@ class ExtractTests(unittest.TestCase):
             with self.subTest(data=data[:20]), tempfile.TemporaryDirectory() as temp:
                 with self.assertRaises(ValueError):
                     rpm.extract_cpio(io.BytesIO(data), temp)
+
+
+class BridgeTests(unittest.TestCase):
+    def test_preserves_argv_and_uses_installed_commit_with_separate_state(self):
+        files = "/data/Flatpak Apps/exact-commit/files"
+        info = {"Application": {"name": bridge.APP_ID}, "Instance": {"app-path": files}}
+        args = ["exec", "--", "$(touch /tmp/injection); literal spaces"]
+        argv = bridge.command(args, info, "/home/test", "/var/data/project with spaces")
+        self.assertEqual(argv[-len(args):], args)
+        self.assertIn(files + "/extra/chatgpt/resources/codex.real", argv)
+        self.assertIn("--directory=/home/test/.var/app/" + bridge.APP_ID + "/data/project with spaces", argv)
+        self.assertIn("--env=CODEX_HOME=/home/test/.var/app/" + bridge.APP_ID + "/data/codex", argv)
+        self.assertNotIn("--dangerously-bypass-approvals-and-sandbox", argv)
+
+    def test_rejects_wrong_identity(self):
+        with self.assertRaises(ValueError):
+            bridge.command([], {"Application": {"name": "other-app"}}, "/home/test", "/tmp")
 
 
 class AsarTests(unittest.TestCase):

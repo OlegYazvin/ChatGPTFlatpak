@@ -5,6 +5,9 @@ Experimental independent Flatpak packaging of OpenAI's native ChatGPT Linux app.
   verifies its pinned checksum.
 - Reproduces the obsolete-feature-flag correction from that working setup.
 - Installs alongside the existing application with separate account state.
+- Runs the bundled Codex CLI through explicit host integration so its own
+  sandbox can operate on Mint's existing kernel. No separate host daemon is
+  installed. This grants host execution capability; see README permissions.
 
 Download `ChatGPT.flatpakref` and open it in your software manager, or use the
 installation command in the README. Updates come from the signed GitHub Pages

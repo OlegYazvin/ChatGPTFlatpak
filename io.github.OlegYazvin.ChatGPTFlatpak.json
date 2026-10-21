@@ -17,7 +17,8 @@
     "--filesystem=host",
     "--talk-name=org.freedesktop.secrets",
     "--talk-name=org.freedesktop.Notifications",
-    "--talk-name=org.kde.StatusNotifierWatcher"
+    "--talk-name=org.kde.StatusNotifierWatcher",
+    "--talk-name=org.freedesktop.Flatpak"
   ],
   "modules": [
     {
@@ -25,6 +26,7 @@
       "buildsystem": "simple",
       "build-commands": [
         "install -Dm755 packaging/chatgpt /app/bin/chatgpt",
+        "install -Dm755 packaging/codex_host.py /app/bin/codex-host",
         "install -Dm755 packaging/apply_extra /app/bin/apply_extra",
         "install -Dm755 packaging/extract_rpm.py /app/bin/extract_rpm.py",
         "install -Dm755 packaging/patch_asar.py /app/bin/patch_asar.py",

@@ -38,8 +38,13 @@ phone-pairing identities are not imported.
 - Freedesktop SDK `25.08` for developer tools and the Electron BaseApp/Zypak for
   desktop dependencies and Chromium process integration.
 - An independent desktop launcher and icon, separate from any existing ChatGPT
-  installation. The package does not register itself as the default `codex://`
-  handler during installation.
+  installation. It advertises support for `codex://` sign-in callbacks but does
+  not explicitly replace an existing default handler during installation.
+- Explicit host integration for Codex: the UI runs inside Flatpak, while the
+  bundled Codex CLI runs on the host through the Flatpak portal. This preserves
+  Codex's own command sandbox on Mint 21.3/kernel 5.15 without a background
+  service or kernel upgrade. The CLI uses the exact installed app commit and
+  separate per-app state; it does not switch to another installed Codex version.
 
 The official RPM was compared against the original, unmodified files retained
 on the Mint machine: the application binary, app archive, and native pairing
@@ -51,8 +56,27 @@ see the validation results.
 The app can access local files, the network, graphics, audio, the desktop login
 keyring, and desktop notifications. Host filesystem access is intentional for
 ChatGPT Work and Codex projects. This is a broadly capable desktop development
-application; treat its agent approval prompts accordingly. It does not receive
-unrestricted D-Bus access.
+application; treat its agent approval prompts accordingly. The
+`org.freedesktop.Flatpak` portal permission allows host command execution: this
+package is not a confinement boundary for Codex. Codex's own requested sandbox
+and approvals remain in effect; the wrapper does not add bypass flags. The host
+needs `bubblewrap` installed, as it already is on the target Mint machine.
+
+If browser sign-in returns to your original ChatGPT installation, select
+**ChatGPT (Unofficial Flatpak)** as the handler for `codex://` links. You can
+temporarily select it with the command below, recording your current handler
+first so you can restore it afterward:
+
+```sh
+xdg-mime query default x-scheme-handler/codex
+xdg-mime default io.github.OlegYazvin.ChatGPTFlatpak.desktop x-scheme-handler/codex
+```
+
+To restore the original handler on the maintainer's Mint machine:
+
+```sh
+xdg-mime default chatgpt.desktop x-scheme-handler/codex
+```
 
 Application state lives under `~/.var/app/io.github.OlegYazvin.ChatGPTFlatpak/`.
 The launcher gives Codex its own data directory there. Existing host ChatGPT and

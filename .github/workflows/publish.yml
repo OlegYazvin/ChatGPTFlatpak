@@ -25,14 +25,14 @@ jobs:
       - name: Install build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y flatpak flatpak-builder gnupg python3
+          sudo apt-get install -y flatpak flatpak-builder gnupg python3 dbus
           flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
       - name: Build packaging
         run: ./scripts/build.sh --user --install-deps-from=flathub
       - name: Validate actual extra-data installation
         run: |
           flatpak install --user --noninteractive -y ./repo io.github.OlegYazvin.ChatGPTFlatpak
-          flatpak run --command=/app/extra/chatgpt/resources/codex io.github.OlegYazvin.ChatGPTFlatpak --version
+          dbus-run-session -- flatpak run --command=/app/extra/chatgpt/resources/codex io.github.OlegYazvin.ChatGPTFlatpak --version
       - name: Import dedicated signing key
         env:
           PRIVATE_KEY: ${{ secrets.FLATPAK_GPG_PRIVATE_KEY }}
@@ -66,7 +66,7 @@ jobs:
         run: |
           tag="${GITHUB_REF_NAME}"
           if [ "$GITHUB_REF_TYPE" != tag ]; then
-            tag="v$(python3 -c 'import json; print(json.load(open("packaging/payload.json"))["version"])')-1"
+            tag="v26.930.31730-2"
           fi
           if gh release view "$tag" >/dev/null 2>&1; then
             gh release upload "$tag" site/ChatGPT.flatpakref site/ChatGPT.flatpakrepo site/repo-public-key.gpg site/SHA256SUMS --clobber

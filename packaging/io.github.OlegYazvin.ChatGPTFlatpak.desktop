@@ -7,5 +7,5 @@ Type=Application
 Terminal=false
 StartupNotify=true
 StartupWMClass=Chatgpt
-Categories=Utility;Development;
-
+Categories=Development;
+MimeType=x-scheme-handler/codex;

@@ -3,6 +3,7 @@
 import hashlib
 import json
 from pathlib import Path
+import shutil
 
 from extract_rpm import extract_rpm
 from patch_asar import patch
@@ -22,4 +23,8 @@ patch("chatgpt/resources/app.asar")
 for name in ["ChatGPT", "resources/codex"]:
     if not (Path("chatgpt") / name).is_file():
         raise SystemExit(f"Missing application component: {name}")
+codex = Path("chatgpt/resources/codex")
+codex.rename(codex.with_name("codex.real"))
+shutil.copyfile("/app/bin/codex-host", codex)
+codex.chmod(0o755)
 rpm.unlink()
