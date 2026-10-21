@@ -27,24 +27,35 @@ pairing. The Flatpak has a separate profile and must be tested independently.
 - Direct nested Codex sandbox execution is blocked inside Flatpak; the same
   original CLI's sandbox command succeeds on the host with kernel 5.15. This is
   the reason for the explicit host integration, not a requirement to upgrade Mint.
-
-## Pending package checks
-
-- Codex sandbox command execution through the installed host bridge.
-- Signed repository installation and the published GitHub installer.
+- The installed host bridge successfully runs `codex sandbox -- /usr/bin/true`.
+- The desktop app initializes its local Codex app server over the host bridge.
+- GitHub Actions builds, installs, checks the actual extra-data installer, signs,
+  and publishes the package successfully. Packaging checks also pass in CI.
+- The prerelease installer was downloaded from GitHub Releases; all release
+  checksums and the embedded repository key match.
+- A separate test installation used that downloaded installer to fetch the
+  signed GitHub Pages repository and OpenAI payload. Its bundled CLI version
+  and actual sandbox command both passed, without using the local build repo.
+- The user confirmed phone pairing works in the new Flatpak profile after the
+  requested interactive sign-in/Chat/pairing check.
+- The packaged CLI reports an authenticated ChatGPT session. After restarting
+  the Flatpak, it remains authenticated; credentials were not printed or copied.
 
 ## Interactive acceptance checklist
 
 These require an account session and, for pairing, the user's phone. They must
 not be reported as passed based solely on the host app working:
 
-- Sign in, complete Google/2FA, quit, and relaunch; confirm login persists.
-- Send a Chat message and create/open a Work artifact.
+- Sign-in and persistence: passed, as recorded above.
+- Phone pairing: user confirmed. Disconnect/reconnect behavior after a restart
+  has not been independently exercised.
+- Create/open a Work artifact; this has not yet been exercised explicitly.
 - Choose a test project; let Codex read/edit a file and execute a command with
-  its requested sandbox and approval policy intact.
+  its requested sandbox and approval policy intact. CLI sandbox execution is
+  verified; a complete GUI-driven agent task is not yet recorded.
 - Upload a file, download an artifact, and check desktop notifications.
-- Pair an updated mobile app; run a remote task, disconnect, and reconnect.
-- Update/reinstall the Flatpak and confirm its state persists.
+- Run a task from the paired phone, disconnect, and reconnect.
+- The local Flatpak update from packaging revision 1 to 2 preserved the profile.
 
 The original installation, existing pairing identities, and launcher remain in
 place. No kernel upgrade or account-data migration is part of this package.

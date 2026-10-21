@@ -17,3 +17,9 @@ See VALIDATION.md in the source repository for completed checks, limitations,
 and interactive checks still needed. This prerelease does not claim that every
 feature has been verified inside Flatpak. Not affiliated with or endorsed by
 OpenAI; not a Flathub release.
+
+Verified on Mint 21.3/kernel 5.15: signed-repository installation from the actual
+GitHub download, native desktop startup, bundled Codex version, sandboxed command
+execution through the host bridge, and login persistence after restart. The user
+also confirmed phone pairing in this Flatpak. Work artifacts, uploads/downloads,
+and a complete phone-driven task remain on the interactive checklist.
